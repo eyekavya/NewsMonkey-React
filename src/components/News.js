@@ -3,6 +3,15 @@ import NewsItem from "./NewsItem";
 import Spinner from "./Spinner";
 
 export class News extends Component {
+  static defaultProps = {
+    country: "in",
+    pageSize: 5,
+  };
+
+  static propTypes = {
+    country: this.propTypes.string,
+    pageSize: this.propTypes.number,
+  };
   constructor() {
     super();
     this.state = {
@@ -14,7 +23,7 @@ export class News extends Component {
 
   async componentDidMount() {
     let data = await fetch(
-      `https://newsapi.org/v2/top-headlines?country=in&apiKey=e74225b94c0e4e2e9badc4c07532da02&page=1&pageSize=${this.props.pageSize}`
+      `https://newsapi.org/v2/top-headlines?country=${this.props.country}&apiKey=e74225b94c0e4e2e9badc4c07532da02&page=1&pageSize=${this.props.pageSize}`
     );
     this.setState({
       loading: true,
@@ -25,8 +34,10 @@ export class News extends Component {
 
   handlePrevClick = async () => {
     let data = await fetch(
-      // "https://newsapi.org/v2/top-headlines?country=in&apiKey=e74225b94c0e4e2e9badc4c07532da02"
-      `https://newsapi.org/v2/top-headlines?country=in&apiKey=e74225b94c0e4e2e9badc4c07532da02&page=${
+      // "https://newsapi.org/v2/top-headlines?country=${this.props.country}&apiKey=e74225b94c0e4e2e9badc4c07532da02"
+      `https://newsapi.org/v2/top-headlines?country=${
+        this.props.country
+      }&apiKey=e74225b94c0e4e2e9badc4c07532da02&page=${
         this.state.page - 1
       }&pageSize=${this.props.pageSize}`
     );
@@ -49,8 +60,10 @@ export class News extends Component {
       )
     ) {
       let data = await fetch(
-        // "https://newsapi.org/v2/top-headlines?country=in&apiKey=e74225b94c0e4e2e9badc4c07532da02"
-        `https://newsapi.org/v2/top-headlines?country=in&apiKey=e74225b94c0e4e2e9badc4c07532da02&page=${
+        // "https://newsapi.org/v2/top-headlines?country=${this.props.country}&apiKey=e74225b94c0e4e2e9badc4c07532da02"
+        `https://newsapi.org/v2/top-headlines?country=${
+          this.props.country
+        }&apiKey=e74225b94c0e4e2e9badc4c07532da02&page=${
           this.state.page + 1
         }&pageSize=${this.props.pageSize}`
       );
