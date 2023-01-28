@@ -7,25 +7,58 @@ export class News extends Component {
     this.state = {
       articles: [],
       loading: false,
+      page: 1,
     };
   }
 
   async componentDidMount() {
     let data = await fetch(
-      "https://newsapi.org/v2/top-headlines?country=in&apiKey=e74225b94c0e4e2e9badc4c07532da02"
+      `https://newsapi.org/v2/top-headlines?country=in&apiKey=e74225b94c0e4e2e9badc4c07532da02&page=1&pageSize=${this.props.pageSize}`
     );
     let parsedData = await data.json();
     this.setState({ articles: parsedData.articles });
   }
 
-  handlePrevClick = () => {};
+  handlePrevClick = async () => {
+    let data = await fetch(
+      // "https://newsapi.org/v2/top-headlines?country=in&apiKey=e74225b94c0e4e2e9badc4c07532da02"
+      `https://newsapi.org/v2/top-headlines?country=in&apiKey=e74225b94c0e4e2e9badc4c07532da02&page=${
+        this.state.page - 1
+      }&pageSize=${this.props.pageSize}`
+    );
+    let parsedData = await data.json();
+    this.setState({
+      page: this.state.page - 1,
+      articles: parsedData.articles,
+    });
+  };
 
-  handleNextClick = () => {};
+  handleNextClick = async () => {
+    if (
+      this.state.page + 1 >
+      Math.ceil(this.state.totalResults / this.props.pageSize)
+    ) {
+      return;
+    } else {
+      let data = await fetch(
+        // "https://newsapi.org/v2/top-headlines?country=in&apiKey=e74225b94c0e4e2e9badc4c07532da02"
+        `https://newsapi.org/v2/top-headlines?country=in&apiKey=e74225b94c0e4e2e9badc4c07532da02&page=${
+          this.state.page + 1
+        }&pageSize=${this.props.pageSize}`
+      );
+      let parsedData = await data.json();
+      this.setState({
+        page: this.state.page + 1,
+        articles: parsedData.articles,
+        totalResults: parsedData.totalResults,
+      });
+    }
+  };
 
   render() {
     return (
       <div className="container my-3">
-        <h2>NewsMonkey - Top Headlines</h2>
+        <h1 className="text-center">NewsMonkey - Top Headlines</h1>
         <div className="row">
           {this.state.articles.map((e) => {
             // a unique key is required in order to use map fn
@@ -43,15 +76,20 @@ export class News extends Component {
         </div>
         <div className="container d-flex justify-content-between">
           <button
+            disabled={this.state.page <= 1}
             type="button"
-            class="btn btn-dark"
+            className="btn btn-dark"
             onClick={this.handlePrevClick}
           >
             &larr; Previous
           </button>
           <button
+            disabled={
+              this.state.page + 1 >
+              Math.ceil(this.state.totalResults / this.props.pageSize)
+            }
             type="button"
-            class="btn btn-dark"
+            className="btn btn-dark"
             onClick={this.handleNextClick}
           >
             Next &rarr;
