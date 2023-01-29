@@ -51,63 +51,26 @@ export class News extends Component {
     this.updateNews();
   }
 
-  handlePrevClick = async () => {
-    // let data = await fetch(
-    //   `https://newsapi.org/v2/top-headlines?country=${
-    //     this.props.country
-    //   }&category=${
-    //     this.props.category
-    //   }&apiKey=e74225b94c0e4e2e9badc4c07532da02&page=${
-    //     this.state.page - 1
-    //   }&pageSize=${this.props.pageSize}`
-    // );
-    // this.setState({
-    //   loading: true,
-    // });
-    // let parsedData = await data.json();
-    // this.setState({
-    //   page: this.state.page - 1,
-    //   articles: parsedData.articles,
-    //   loading: false,
-    // });
-    this.setState({
-      page: this.state.page - 1,
-    });
-    this.updateNews();
-  };
+  // handlePrevClick = async () => {
+  //   this.setState({
+  //     page: this.state.page - 1,
+  //   });
+  //   this.updateNews();
+  // };
 
-  handleNextClick = async () => {
-    if (
-      !(
-        this.state.page + 1 >
-        Math.ceil(this.state.totalResults / this.props.pageSize)
-      )
-    ) {
-      // let data = await fetch(
-      //   `https://newsapi.org/v2/top-headlines?country=${
-      //     this.props.country
-      //   }&category=${
-      //     this.props.category
-      //   }&apiKey=e74225b94c0e4e2e9badc4c07532da02&page=${
-      //     this.state.page + 1
-      //   }&pageSize=${this.props.pageSize}`
-      // );
-      // this.setState({
-      //   loading: true,
-      // });
-      // let parsedData = await data.json();
-      // this.setState({
-      //   page: this.state.page + 1,
-      //   articles: parsedData.articles,
-      //   totalResults: parsedData.totalResults,
-      //   loading: false,
-      // });
-      this.setState({
-        page: this.state.page + 1,
-      });
-      this.updateNews();
-    }
-  };
+  // handleNextClick = async () => {
+  //   if (
+  //     !(
+  //       this.state.page + 1 >
+  //       Math.ceil(this.state.totalResults / this.props.pageSize)
+  //     )
+  //   ) {
+  //     this.setState({
+  //       page: this.state.page + 1,
+  //     });
+  //     this.updateNews();
+  //   }
+  // };
 
   fetchMoreData = async () => {
     this.setState({ page: this.state.page + 1 });
